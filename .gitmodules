@@ -1,0 +1,3 @@
+[submodule "symbolic"]
+	path = symbolic
+	url = https://bniemczyk@github.com/bniemczyk/symbolic.git

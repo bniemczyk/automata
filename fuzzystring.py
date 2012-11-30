@@ -163,7 +163,7 @@ if __name__ == '__main__':
     print 'NFA created (%d states)' % (len(nfa.all_states()))
     eterm = sample1
     print 'final states:\n%s' % (nfa._final_states)
-    nfa.to_graph().render()
+    nfa.to_graph().visualize()
     haystack = eterm[2:] + (eterm * 10 * 2**20) + 'F'
     for i in range(10):
       print 'executing against %f MB string' % (float(len(haystack)) / 2**20)

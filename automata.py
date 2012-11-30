@@ -402,14 +402,11 @@ class NFA(object):
     return set.intersection(states, self._final_states)
 
   def to_graph(self):
-    from graphlib import memgraph
-    g = memgraph.Graph('NFA')
+    from symath.graph import directed
+    g = directed.DirectedGraph()
 
     for s in self.all_states():
-      node = g.add(s)
-      if s in self._final_states:
-        node.set_meta('color', 'blue')
-
+      g.add_node(s)
       for t in self._transitions.setdefault(s, {}):
         for dest in self._transitions[s][t]:
           lbl = "'%s'" % (t)
@@ -421,10 +418,7 @@ class NFA(object):
           if self.is_tagged(t, s, dest):
             lbl = "%s/%s" % (lbl, self.tag(t,s,dest))
 
-          node.add_edge(dest, lbl)
-
-    snode = g.add(self._start_state)
-    snode.set_meta('color', 'green')
+          g.connect(s, dest, lbl)
 
     return g
 
