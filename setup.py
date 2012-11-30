@@ -1,12 +1,44 @@
 #!/usr/bin/env python
 
-from setuptools import setup, Extension, command
+import distutils
+import setuptools
+from setuptools import setup, Extension, Command
 from setuptools.dist import Distribution
+from distutils.command.build import build
 import os
 
 _depends = '''
 symath
 '''
+
+class Clean(Command):
+
+  user_options = []
+
+  def run(self):
+    os.system('make -C automata clean')
+    os.system('rm -rf build')
+
+  def initialize_options(self):
+    pass
+
+  def finalize_options(self):
+    pass
+
+
+class BuildCmd(build):
+  def run(self):
+    os.system("make -C automata")
+    build.run(self)
+
+class BuildExtCmd(build):
+  extensions = []
+
+  def run(self):
+    os.system("make -C automata")
+
+  def get_source_files(self):
+    return []
 
 class MyDist(Distribution):
   def has_ext_modules(self):
@@ -24,9 +56,11 @@ setup( \
   include_package_data=True, \
   test_suite='tests', \
   license='BSD', \
+  cmdclass = { 'build': BuildCmd, 'build_ext': BuildExtCmd, 'clean': Clean }, \
   install_requires=_depends, \
   zip_safe = False, \
   distclass = MyDist, \
+  extensions = [], \
   classifiers = [ \
     'Development Status :: 3 - Alpha', \
     'Intended Audience :: Developers', \
