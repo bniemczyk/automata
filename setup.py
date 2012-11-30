@@ -52,7 +52,7 @@ setup( \
   author_email='brandon.niemczyk@gmail.com', \
   url='http://github.com/bniemczyk/automata', \
   packages=['automata'], \
-	package_data={'automata': ['avmruntime.bc', 'avmjit.so']}, \
+	package_data={'automata': ['avmruntime.bc', 'avmjit.so', 'avmjit.dll']}, \
   include_package_data=True, \
   test_suite='tests', \
   license='BSD', \
