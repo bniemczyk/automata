@@ -81,7 +81,7 @@ class VM
       llvm::MemoryBuffer::getFile(runtime_file, mbptr);
       if(!mbptr.get())
       {
-        std::cerr << "could not load runtime\n";
+        std::cerr << "could not load runtime " << runtime_file << "\n";
         std::cerr << "membuf: " << mbptr.get() << "\n";
         return;
       }

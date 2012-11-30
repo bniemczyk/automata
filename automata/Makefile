@@ -37,6 +37,7 @@ ll: avmruntime.ll
 
 %.bc: %.c
 	$(CLANG) -c -o $@ $^
+	chmod 644 $@
 
 %.ll: %.bc
 	llvm-dis $^
