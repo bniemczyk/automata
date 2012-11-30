@@ -4,7 +4,7 @@ LLC=llc -x86-asm-syntax=intel
 CXX=clang++ -std=c++11 `llvm-config --cppflags --cxxflags` -g $(OPTIMIZATION)
 CC=clang -g $(OPTIMIZATION)
 LD=clang++
-LDFLAGS=`llvm-config --ldflags --libs` -g $(OPTIMIZATION) -lprofiler
+LDFLAGS=`llvm-config --ldflags --libs` -g $(OPTIMIZATION) 
 SOURCES=*.py **/*.py *.c *.cc *.h Makefile
 
 all: avmruntime.bc avmjit.so
