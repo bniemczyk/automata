@@ -60,7 +60,6 @@ setup( \
   install_requires=_depends, \
   zip_safe = False, \
   distclass = MyDist, \
-  extensions = [], \
   classifiers = [ \
     'Development Status :: 3 - Alpha', \
     'Intended Audience :: Developers', \
