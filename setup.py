@@ -8,7 +8,7 @@ symath
 
 setup( \
   name='automata', \
-  version='git', \
+  version='0.1', \
   description='finite automata for python', \
   author='Brandon Niemczyk', \
   author_email='brandon.niemczyk@gmail.com', \
