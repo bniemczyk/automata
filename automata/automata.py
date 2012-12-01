@@ -409,7 +409,7 @@ class NFA(object):
       g.add_node(s)
       for t in self._transitions.setdefault(s, {}):
         for dest in self._transitions[s][t]:
-          lbl = "'%s'" % (t)
+          lbl = "'%s'" % (t,)
           if t == NFA.EPSILON:
             lbl = 'E'
           if t == NFA.ANY:

@@ -44,6 +44,8 @@
 
 class StateBuilder;
 
+static bool initialized = false;
+
 class VM
 {
   public:
@@ -69,11 +71,15 @@ class VM
     inline VM(const char *runtime_file)
       : context()
     {
-      llvm::llvm_start_multithreaded();
-      llvm::InitializeAllTargets();
-      llvm::InitializeAllTargetMCs();
-      llvm::InitializeAllAsmPrinters();
-      llvm::initializeAnalysis(*llvm::PassRegistry::getPassRegistry());
+      if(!initialized) 
+      {
+        initialized = true;
+        llvm::llvm_start_multithreaded();
+        llvm::InitializeAllTargets();
+        llvm::InitializeAllTargetMCs();
+        llvm::InitializeAllAsmPrinters();
+        llvm::initializeAnalysis(*llvm::PassRegistry::getPassRegistry());
+      }
       //llvm::initializeCore(NULL);
       //this->mod = new llvm::Module("", this->context);
 
