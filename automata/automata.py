@@ -4,10 +4,10 @@ import copy
 import VM
 from util import OneTimeQueue as _otq
 import util
+from symath import symbols
 
 class NFA(object):
-  EPSILON = 'EPSILON'
-  ANY = 'ANY'
+  EPSILON,ANY = symbols('NFA_ANY NFA_EPSILON')
 
   def __init__(self, start_state, magic=None):
     self._start_state = start_state
