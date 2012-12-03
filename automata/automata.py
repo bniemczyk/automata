@@ -37,8 +37,9 @@ class NFA(object):
     returns enumerable of (prevstate, t) tuples
     this is super slow and needs to be sped up
     '''
-    for t in self._transitions_to[dst]:
-      for s in self._transitions_to[dst][t]:
+    if dst in self._transitions_to:
+      for t in self._transitions_to[dst]:
+        for s in self._transitions_to[dst][t]:
           yield (s, t)
 
   def tag(self, transition, src, dst, tagid=None):

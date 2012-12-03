@@ -17,14 +17,9 @@ class TestAutomata(unittest.TestCase):
     sample1 = 'abcd'
     k = 2
   
-    if os.path.exists('fuzzystring.nfa'):
-      print '----------------------------------'
-      print 'Loading Levenshtein Automata from fuzzystring.nfa'
-      nfa = fu.loads(open('fuzzystring.nfa').read())
-    else:
-      print '---------------------------'
-      print 'Building Levenshtein Automata from term [%s] with error %d' % (sample1, k)
-      nfa = fuzzystring.LevAutomata(sample1, k, search=True)
+    print '---------------------------'
+    print 'Building Levenshtein Automata from term [%s] with error %d' % (sample1, k)
+    nfa = fuzzystring.LevAutomata(sample1, k, search=True)
 
     print 'NFA created (%d states)' % (len(nfa.all_states()))
     eterm = sample1
@@ -44,3 +39,9 @@ class TestAutomata(unittest.TestCase):
       except Exception as ex:
         print ex
         os.unlink('fuzzystring.nfa')
+
+  def test_failure_case_1(self):
+    auto = fuzzystring.LevAutomata('test string', 2)
+    rv = auto.execute('teststring')
+    print rv
+    self.assertTrue((11,1) in rv)
