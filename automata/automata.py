@@ -227,6 +227,7 @@ class NFA(object):
 
     if tran != None:
       states = self.nextstates(states, tran)
+      self._add_epsilon_states(states, gathered_epsilons)
 
     if self._magic != None:
       states = states.union(self._magic(states))

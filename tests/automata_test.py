@@ -7,10 +7,10 @@ class TestAutomata(unittest.TestCase):
   def setUp(self):
     pass
 
-  def test_nfa(self):
+  def xtest_nfa(self):
     NFA._test()
 
-  def test_fuzzystring(self):
+  def xtest_fuzzystring(self):
     import pprint
     pp = pprint.PrettyPrinter(depth=6)
   
@@ -45,3 +45,11 @@ class TestAutomata(unittest.TestCase):
     rv = auto.execute('teststring')
     print rv
     self.assertTrue((11,1) in rv)
+
+  def test_failure_case_2(self):
+    auto = fuzzystring.LevAutomata('test you', 1)
+    rv = auto.execute('test yu', debug=True)
+    if len(rv) == 0:
+      print repr(auto.bytecode().link())
+      auto.to_graph().visualize()
+    self.assertEqual(len(rv), 1)
