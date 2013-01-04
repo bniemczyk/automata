@@ -49,7 +49,7 @@ class TestAutomata(unittest.TestCase):
   def test_failure_case_2(self):
     auto = fuzzystring.LevAutomata('test you', 1)
     rv = auto.execute('test yu', debug=True)
+    print repr(auto.bytecode().link())
     if len(rv) == 0:
-      print repr(auto.bytecode().link())
       auto.to_graph().visualize()
     self.assertEqual(len(rv), 1)

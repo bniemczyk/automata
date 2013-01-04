@@ -22,6 +22,7 @@ class NFA(object):
     self._tag_assocs = util.Associations()
     self._tcounter = 0
     self._states = set()
+    self.do_tags = False
     self.choose = lambda a,b: a
 
   def _choose(self, arglist):
@@ -177,15 +178,16 @@ class NFA(object):
     self._tcounter += 1
 
     # get a list of tags to emit code for, and reltags to copy previous values from
-    tags = set()
-    rtags = set()
-    for s in sources:
-      for d in self._transitions[s].setdefault(trn, set()):
-        rtags.update(self.reltags(d, reltags_cache))
-        if self.is_tagged(trn, s, d):
-          tags.add((self.tag(trn, s, d), d))
-
-    self._write_transition_code(tags, rtags, tb)
+    if self.do_tags:
+      tags = set()
+      rtags = set()
+      for s in sources:
+        for d in self._transitions[s].setdefault(trn, set()):
+          rtags.update(self.reltags(d, reltags_cache))
+          if self.is_tagged(trn, s, d):
+            tags.add((self.tag(trn, s, d), d))
+  
+      self._write_transition_code(tags, rtags, tb)
 
     # if tb is empty, just return the stateblock, no need for an extra jmp
     if not tb:
@@ -251,17 +253,18 @@ class NFA(object):
     # for all epsilon transitions
     # gathered_epsilons[state] holds a dictionary of dst: src mappings, so we can use that data
 
-    tags = set()
-    rtags = set()
-
-    for ts in pstates:
-      for dst in gathered_epsilons[ts]:
-        rtags.update(self.reltags(dst, reltags_cache))
-        src = gathered_epsilons[ts][dst]
-        if self.is_tagged(NFA.EPSILON, src, dst):
-          tags.add((self.tag(NFA.EPSILON, src, dst), dst))
-
-    self._write_transition_code(tags, rtags, ip)
+    if self.do_tags:
+      tags = set()
+      rtags = set()
+  
+      for ts in pstates:
+        for dst in gathered_epsilons[ts]:
+          rtags.update(self.reltags(dst, reltags_cache))
+          src = gathered_epsilons[ts][dst]
+          if self.is_tagged(NFA.EPSILON, src, dst):
+            tags.add((self.tag(NFA.EPSILON, src, dst), dst))
+  
+      self._write_transition_code(tags, rtags, ip)
 
 
     # do a multi-match for any final states
