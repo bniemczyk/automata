@@ -7,10 +7,10 @@ class TestAutomata(unittest.TestCase):
   def setUp(self):
     pass
 
-  def xtest_nfa(self):
+  def test_nfa(self):
     NFA._test()
 
-  def xtest_fuzzystring(self):
+  def test_fuzzystring(self):
     import pprint
     pp = pprint.PrettyPrinter(depth=6)
   
