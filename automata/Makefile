@@ -1,10 +1,10 @@
 OPTIMIZATION=-O3
 CLANG=clang $(OPTIMIZATION) -Wno-unused-value -emit-llvm
 LLC=llc -x86-asm-syntax=intel
-CXX=clang++ -std=c++11 `llvm-config --cppflags --cxxflags` -g $(OPTIMIZATION)
+CXX=clang++ -frtti -std=c++11 `llvm-config --cppflags --cxxflags` -g $(OPTIMIZATION)
 CC=clang -g $(OPTIMIZATION)
-LD=clang++
-LDFLAGS=`llvm-config --ldflags --libs` -g $(OPTIMIZATION) 
+LD=clang++ -frtti
+LD_FLAGS=`llvm-config --ldflags --libs` $(LDFLAGS) -g $(OPTIMIZATION)
 SOURCES=*.py **/*.py *.c *.cc *.h Makefile
 
 all: avmruntime.bc avmjit.so
@@ -20,17 +20,17 @@ test: all
 	../most-expensive.py peid.prof
 
 avmjit.so: avmjit.o
-	$(LD) -shared $^ $(LDFLAGS) -o $@
+	$(LD) -shared $^ $(LD_FLAGS) -o $@
 
 asm: avmruntime.s
 
 ll: avmruntime.ll
 
 %.o: %.cc
-	$(CXX) -c -o $@ $^
+	$(CXX) $(CXXFLAGS) -c -o $@ $^
 
 %.o: %.c
-	$(CC) -c -o $@ $^
+	$(CC) $(CFLAGS) -c -o $@ $^
 
 %.s: %.bc
 	$(LLC) $^

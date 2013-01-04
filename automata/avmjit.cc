@@ -9,7 +9,7 @@
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
-#include <llvm/Support/IRBuilder.h>
+#include <llvm/IRBuilder.h>
 #include <llvm/Constants.h>
 #include <llvm/Instruction.h>
 #include <llvm/Intrinsics.h>
@@ -20,7 +20,7 @@
 #include <llvm/Support/TargetSelect.h>
 #include <llvm/PassManager.h>
 #include <llvm/LinkAllPasses.h>
-#include <llvm/Support/TypeBuilder.h>
+#include <llvm/TypeBuilder.h>
 #include <llvm/Support/MemoryBuffer.h>
 #include <llvm/Support/system_error.h>
 #include <llvm/Linker.h>
@@ -155,7 +155,8 @@ class StateBuilder
   public:
     inline StateBuilder(VM *_vm) : vm(_vm) 
   {
-    this->fn = dynamic_cast<llvm::Function *>(this->vm->mod->getOrInsertFunction("", this->vm->statefn_type));
+    auto fn = this->vm->mod->getOrInsertFunction("", this->vm->statefn_type);
+    this->fn = static_cast<llvm::Function *>(fn);
     if(!this->fn) {
       std::cerr << "could not generate a state function\n";
       return;
