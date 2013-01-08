@@ -7,7 +7,7 @@ import util
 from symath import symbols
 
 class NFA(object):
-  EPSILON,ANY = symbols('NFA_ANY NFA_EPSILON')
+  EPSILON,ANY = symbols('NFA_EPSILON NFA_ANY')
 
   def __init__(self, start_state, magic=None):
     self._start_state = start_state
@@ -414,11 +414,13 @@ class NFA(object):
       g.add_node(s)
       for t in self._transitions.setdefault(s, {}):
         for dest in self._transitions[s][t]:
-          lbl = "'%s'" % (t,)
+          lbl = None
           if t == NFA.EPSILON:
             lbl = 'E'
-          if t == NFA.ANY:
+          elif t == NFA.ANY:
             lbl = '*'
+          else:
+            lbl = "'%s'" % (t if 0x30 <= ord(str(t)) <= 0x7a else 'chr(%s)' % (ord(str(t))),)
 
           if self.is_tagged(t, s, dest):
             lbl = "%s/%s" % (lbl, self.tag(t,s,dest))
