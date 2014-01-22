@@ -51,6 +51,7 @@ setup( \
   author='Brandon Niemczyk', \
   author_email='brandon.niemczyk@gmail.com', \
   url='http://github.com/bniemczyk/automata', \
+  scripts=['automata/xorsearch.py'], \
   packages=['automata'], \
 	package_data={'automata': ['avmruntime.bc', 'avmjit.so', 'avmjit.dll']}, \
   include_package_data=True, \
