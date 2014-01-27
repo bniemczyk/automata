@@ -439,6 +439,14 @@ class NFA(object):
 
           g.connect(s, dest, lbl)
 
+    for fs in self._final_states:
+      g.set_color(fs, 'red')
+
+    for hs in self._state_hooks:
+      g.set_color(fs, 'blue')
+
+    g.set_color(self._start_state, 'green')
+
     return g
 
   @staticmethod
