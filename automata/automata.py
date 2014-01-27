@@ -34,8 +34,12 @@ class NFA(object):
       else:
         rv = self.choose(rv, i)
 
-  def add_state_hook(self, state, hook):
-    self._state_hooks[state] = hook
+  def set_state_hook(self, state, hook):
+    if hook == None:
+      if state in self._state_hooks:
+        del self._state_hooks[state]
+    else:
+      self._state_hooks[state] = hook
 
   def transitions_to(self, dst):
     '''
