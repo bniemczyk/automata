@@ -22,6 +22,7 @@ class NFA(object):
     self._tag_assocs = util.Associations()
     self._tcounter = 0
     self._states = set()
+    self._state_hooks = {}
     self.do_tags = False
     self.choose = lambda a,b: a
 
@@ -32,6 +33,9 @@ class NFA(object):
         rv = i
       else:
         rv = self.choose(rv, i)
+
+  def add_state_hook(self, state, hook):
+    self._state_hooks[state] = hook
 
   def transitions_to(self, dst):
     '''
@@ -266,6 +270,10 @@ class NFA(object):
   
       self._write_transition_code(tags, rtags, ip)
 
+    # run any defined state hooks
+    for s in tstates:
+      if s in self._state_hooks:
+        ip.append(VM.PyCode(self._state_hooks[s]))
 
     # do a multi-match for any final states
     finals = self._final_states.intersection(states)

@@ -53,3 +53,15 @@ class TestAutomata(unittest.TestCase):
     if len(rv) == 0:
       auto.to_graph().visualize()
     self.assertEqual(len(rv), 1)
+
+  def test_state_hooks(self):
+    nfa = NFA(-1)
+    nfa.add_transition(-1, 'a', 0)
+    nfa.add_transition(0, 'a', 0)
+    def _h():
+      _h.count += 1
+      return _h.count
+    _h.count = 0
+    nfa.add_state_hook(0, _h)
+    nfa.execute('aaaba')
+    self.assertEqual(_h.count, 3)
