@@ -443,7 +443,7 @@ class NFA(object):
       g.set_color(fs, 'red')
 
     for hs in self._state_hooks:
-      g.set_color(fs, 'blue')
+      g.set_color(hs, 'blue')
 
     g.set_color(self._start_state, 'green')
 
