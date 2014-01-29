@@ -1,4 +1,4 @@
-OPTIMIZATION=-O3
+OPTIMIZATION=-O0
 CLANG=clang $(OPTIMIZATION) -Wno-unused-value -emit-llvm
 LLC=llc -x86-asm-syntax=intel
 CXX=clang++ -frtti -std=c++11 `llvm-config --cppflags --cxxflags` -g $(OPTIMIZATION)

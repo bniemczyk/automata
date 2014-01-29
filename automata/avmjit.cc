@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <cassert>
 
 #include <iostream>
 #include <string>
@@ -258,6 +259,7 @@ INTERNAL inline void * VM::Run(codeblock_t *cb, const char *str, unsigned long l
     cb->compiled = cb->compiler();
   }
 
+  assert(cb->compiled);
   printf("compiled: %p\n", cb->compiled);
   void *rv = cb->compiled(ctx);
   delete ctx;
